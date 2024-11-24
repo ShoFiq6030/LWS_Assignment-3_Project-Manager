@@ -45,6 +45,7 @@ export default function Revise({ initialData, onDelete, onEdit }) {
             {isAscending ||isAscending===null ? <SortSVG /> : <SortDescending />}
           </button>
         </div>
+        {reviseData.length===0 && "Task List is empty!" }
         {reviseData.map((item) => {
           return (
             <div key={item.id} className="mb-4 rounded-lg bg-gray-800 p-4">

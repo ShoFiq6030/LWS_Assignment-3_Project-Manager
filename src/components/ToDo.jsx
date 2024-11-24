@@ -53,7 +53,7 @@ export default function ToDo({ initialData, onEdit, onDelete }) {
             )}
           </button>
         </div>
-
+        {sortedData.length === 0 && "Task List is empty!"}
         {sortedData.map((item) => {
           return (
             <div key={item.id}>

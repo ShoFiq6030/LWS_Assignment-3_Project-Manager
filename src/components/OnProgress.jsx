@@ -54,6 +54,7 @@ export default function OnProgress({ initialData, onDelete, onEdit }) {
             )}
           </button>
         </div>
+        {onProgressData.length===0 && "Task List is empty!" }
         {onProgressData.map((item) => {
           return (
             <div key={item.id} className="mb-4 rounded-lg bg-gray-800 p-4">

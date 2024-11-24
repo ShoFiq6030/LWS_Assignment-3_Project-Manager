@@ -102,7 +102,6 @@ export default function MainContent() {
   }
 
   function handleDelete(id) {
-    console.log(id);
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
     );
