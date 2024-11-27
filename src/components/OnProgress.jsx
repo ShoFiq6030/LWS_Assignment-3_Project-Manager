@@ -5,10 +5,10 @@ import SortDescending from "./Svg/SortDescending";
 import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
 
-export default function OnProgress({ initialData, onDelete, onEdit }) {
+export default function OnProgress({ filteredTasks, onDelete, onEdit }) {
   const [isAscending, setIsAscending] = useState(null);
   // console.log(onProgressData);
-  let onProgressData = initialData.filter(
+  let onProgressData = filteredTasks.filter(
     (item) => item.category === "inprogress"
   );
 

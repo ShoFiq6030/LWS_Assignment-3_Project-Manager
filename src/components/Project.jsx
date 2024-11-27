@@ -7,13 +7,13 @@ import AddSVG from "./Svg/AddSVG";
 import ToDo from "./ToDo";
 
 
-export default function Project({ initialData, onEdit,onAddClick,onDelete}) {
+export default function Project({ filteredTasks, onEdit,onAddClick,onDelete}) {
   // let todoData = [];
   // let onProgressData = [];
   // let doneData = [];
   // let reviseData = [];
 
-  // initialData.map((item) => {
+  // filteredTasks.map((item) => {
   //   if (item.category == "todo") {
   //     todoData.push(item);
   //   }
@@ -48,10 +48,10 @@ export default function Project({ initialData, onEdit,onAddClick,onDelete}) {
           </div>
         </div>
         <div className="-mx-2 mb-6 flex flex-wrap">
-          <ToDo initialData={initialData} onEdit={onEdit} onDelete={onDelete} />
-          <OnProgress initialData={initialData} onEdit={onEdit} onDelete={onDelete}/>
-          <Done initialData={initialData} onEdit={onEdit} onDelete={onDelete} />
-          <Revise initialData={initialData} onEdit={onEdit} onDelete={onDelete} />
+          <ToDo filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete} />
+          <OnProgress filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete}/>
+          <Done filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete} />
+          <Revise filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete} />
         </div>
       </div>
     </>

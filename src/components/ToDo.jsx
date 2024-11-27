@@ -5,12 +5,12 @@ import EditSVG from "./Svg/EditSVG";
 import SortSVG from "./Svg/SortSVG";
 import SortDescending from "./Svg/SortDescending";
 
-export default function ToDo({ initialData, onEdit, onDelete }) {
-  // console.log(initialData);
+export default function ToDo({ filteredTasks, onEdit, onDelete }) {
+  // console.log(filteredTasks);
 
   const [isAscending, setIsAscending] = useState(null);
 
-  let sortedData = initialData.filter((item) => item.category === "todo");
+  let sortedData = filteredTasks.filter((item) => item.category === "todo");
 
   if (isAscending === null) {
     sortedData = sortedData.sort((a, b) => b.id - a.id);

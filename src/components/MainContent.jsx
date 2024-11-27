@@ -1,14 +1,17 @@
 import { useState } from "react";
 import Header from "./Header";
 import Project from "./Project";
-import { data } from "../assets/data";
+import { data as initialData } from "../assets/data";
 import ToDoForm from "./ToDoForm";
+import { useReducer } from "react";
+import taskReducer from "../reducer/taskReducer";
+import { validateForm } from "../utils/utilityFunctions";
 
 export default function MainContent() {
-  const [initialData, setInitialData] = useState(data);
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState({});
-
+  const [initialTasks, dispatch] = useReducer(taskReducer, initialData);
+  const [searchText, setSearchText] = useState("");
   const [inputData, setInputData] = useState({
     taskName: "",
     description: "",
@@ -17,29 +20,15 @@ export default function MainContent() {
   });
   const [currentEdit, setCurrentEdit] = useState(null);
 
-  // console.log(initialData);
-
-  const nextId =
-    initialData.reduce((maxId, task) => {
-      return Math.max(maxId, task.id);
-    }, -1) + 1;
   // handlers
   function handleSearchText(e) {
-    const value = e.target.value;
-
-    if (value.trim() === "") {
-      setInitialData(data);
-    } else {
-      setInitialData(
-        data.filter((item) =>
-          item.taskName.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
+    setSearchText(e.target.value);
   }
+  const filteredTasks = initialTasks.filter((task) =>
+    task.taskName.toLowerCase().includes(searchText.toLowerCase())
+  );
   function handleModalCloseOpen() {
     setModalOpen(!modalOpen);
-
     setInputData({
       taskName: "",
       description: "",
@@ -48,41 +37,22 @@ export default function MainContent() {
     });
     setError({});
   }
-  function validateForm() {
-    const newErrors = {};
 
-    if (!inputData.taskName.trim()) {
-      newErrors.taskName = "Task Name is required.";
-    }
-    if (!inputData.description.trim()) {
-      newErrors.description = "Description is required.";
-    }
-    if (!inputData.dueDate) {
-      newErrors.dueDate = "Due Date is required.";
-    }
-    if (!inputData.category.trim()) {
-      newErrors.category = "Category is required.";
-    }
-
-    setError(newErrors);
-
-    // Return whether the form is valid
-    return Object.keys(newErrors).length === 0;
-  }
   function handleAddorUpdate() {
-    if (validateForm()) {
+    if (validateForm(inputData, setError)) {
       if (currentEdit) {
-        setInitialData((prevData) =>
-          prevData.map((item) =>
-            item.id === currentEdit.id ? { ...inputData, id: item.id } : item
-          )
-        );
+        dispatch({
+          type: "edit",
+          inputData,
+        });
         setModalOpen(!modalOpen);
         setCurrentEdit(null);
-        console.log("hello");
       } else {
-        console.log(inputData);
-        setInitialData([...initialData, { ...inputData, id: nextId }]);
+        dispatch({
+          type: "add",
+          task: inputData,
+        });
+
         setModalOpen(!modalOpen);
         setInputData({
           taskName: "",
@@ -93,20 +63,23 @@ export default function MainContent() {
       }
     }
   }
-  // console.log(initialData);
+
   function handleEdit(item) {
-    console.log(item);
+    // console.log(item);
     setCurrentEdit(item);
     setInputData({ ...item });
     setModalOpen(true);
   }
 
-  function handleDelete(id) {
+  function handleDelete(taskId) {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
     );
     if (isConfirmed) {
-      setInitialData(initialData.filter((item) => item.id !== id));
+      dispatch({
+        type: "delete",
+        taskId,
+      });
     }
   }
 
@@ -127,7 +100,7 @@ export default function MainContent() {
         <>
           <Header onSearch={handleSearchText} />
           <Project
-            initialData={initialData}
+            filteredTasks={filteredTasks}
             onAddClick={handleModalCloseOpen}
             onDelete={handleDelete}
             onEdit={handleEdit}

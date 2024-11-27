@@ -5,9 +5,9 @@ import SortDescending from "./Svg/SortDescending";
 import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
 
-export default function Revise({ initialData, onDelete, onEdit }) {
+export default function Revise({ filteredTasks, onDelete, onEdit }) {
   const [isAscending, setIsAscending] = useState(null);
-  let reviseData = initialData.filter((item) => item.category === "revised");
+  let reviseData = filteredTasks.filter((item) => item.category === "revised");
 
   if (isAscending === null) {
     reviseData = reviseData.sort((a, b) => b.id - a.id);

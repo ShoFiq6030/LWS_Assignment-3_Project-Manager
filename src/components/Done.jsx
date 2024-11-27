@@ -5,10 +5,10 @@ import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
 
 /* eslint-disable react/prop-types */
-export default function Done({ initialData, onDelete, onEdit }) {
+export default function Done({ filteredTasks, onDelete, onEdit }) {
   const [isAscending, setIsAscending] = useState(null);
 
-  let doneData = initialData.filter((item) => item.category === "done");
+  let doneData = filteredTasks.filter((item) => item.category === "done");
 
   if (isAscending === null) {
     doneData = doneData.sort((a, b) => b.id - a.id);
