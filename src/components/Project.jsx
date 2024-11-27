@@ -6,32 +6,7 @@ import Revise from "./Revise";
 import AddSVG from "./Svg/AddSVG";
 import ToDo from "./ToDo";
 
-
-export default function Project({ filteredTasks, onEdit,onAddClick,onDelete}) {
-  // let todoData = [];
-  // let onProgressData = [];
-  // let doneData = [];
-  // let reviseData = [];
-
-  // filteredTasks.map((item) => {
-  //   if (item.category == "todo") {
-  //     todoData.push(item);
-  //   }
-  //   if (item.category == "inprogress") {
-  //     onProgressData.push(item);
-  //   }
-  //   if (item.category == "done") {
-  //     doneData.push(item);
-  //   }
-  //   if (item.category == "revised") {
-  //     reviseData.push(item);
-  //   }
-  // });
-  // console.log(todoData);
-  // console.log(onProgressData);
-  // console.log(doneData);
-  // console.log(reviseData);
-
+export default function Project({ onAddClick,  }) {
   return (
     <>
       <div className="mx-auto max-w-7xl p-6">
@@ -48,10 +23,10 @@ export default function Project({ filteredTasks, onEdit,onAddClick,onDelete}) {
           </div>
         </div>
         <div className="-mx-2 mb-6 flex flex-wrap">
-          <ToDo filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete} />
-          <OnProgress filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete}/>
-          <Done filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete} />
-          <Revise filteredTasks={filteredTasks} onEdit={onEdit} onDelete={onDelete} />
+          <ToDo />
+          <OnProgress />
+          <Done />
+          <Revise />
         </div>
       </div>
     </>

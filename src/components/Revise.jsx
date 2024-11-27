@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SortSVG from "./Svg/SortSVG";
 import SortDescending from "./Svg/SortDescending";
 import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
+import { TaskContext } from "../context/taskContext";
 
-export default function Revise({ filteredTasks, onDelete, onEdit }) {
+export default function Revise() {
+  const {filteredTasks,handleEdit, handleDelete} = useContext(TaskContext);
   const [isAscending, setIsAscending] = useState(null);
   let reviseData = filteredTasks.filter((item) => item.category === "revised");
 
@@ -42,10 +44,14 @@ export default function Revise({ filteredTasks, onDelete, onEdit }) {
             Revise ({reviseData.length})
           </h3>
           <button onClick={handleSortClick}>
-            {isAscending ||isAscending===null ? <SortSVG /> : <SortDescending />}
+            {isAscending || isAscending === null ? (
+              <SortSVG />
+            ) : (
+              <SortDescending />
+            )}
           </button>
         </div>
-        {reviseData.length===0 && "Task List is empty!" }
+        {reviseData.length === 0 && "Task List is empty!"}
         {reviseData.map((item) => {
           return (
             <div key={item.id} className="mb-4 rounded-lg bg-gray-800 p-4">
@@ -54,12 +60,12 @@ export default function Revise({ filteredTasks, onDelete, onEdit }) {
                   {item.taskName}
                 </h4>
                 <div className="flex gap-2">
-                  <button onClick={() => onDelete(item.id)}>
+                  <button onClick={() => handleDelete(item.id)}>
                     <DeleteSVG />
                   </button>
                   <button
                     onClick={() => {
-                      onEdit(item);
+                      handleEdit(item);
                     }}
                   >
                     <EditSVG />

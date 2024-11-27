@@ -1,13 +1,15 @@
+import { useContext } from "react";
+import { TaskContext } from "../context/taskContext";
+
 /* eslint-disable react/prop-types */
 export default function ToDoForm({
-  onCloseClick,
   inputData,
   setInputData,
-  onAddTask,
   error,
   setError,
   currentEdit,
 }) {
+  const { handleModalCloseOpen, handleAddorUpdate } = useContext(TaskContext);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputData((prevData) => ({
@@ -119,7 +121,7 @@ export default function ToDoForm({
 
               <div className="flex justify-end space-x-3">
                 <button
-                  onClick={onCloseClick}
+                  onClick={handleModalCloseOpen}
                   type="button"
                   className="rounded-md border border-gray-600 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
@@ -129,7 +131,7 @@ export default function ToDoForm({
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
-                    onAddTask();
+                    handleAddorUpdate();
                   }}
                   className="rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                 >

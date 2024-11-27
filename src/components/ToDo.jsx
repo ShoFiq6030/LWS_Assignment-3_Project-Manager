@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
 import SortSVG from "./Svg/SortSVG";
 import SortDescending from "./Svg/SortDescending";
+import { TaskContext } from "../context/taskContext";
 
-export default function ToDo({ filteredTasks, onEdit, onDelete }) {
-  // console.log(filteredTasks);
-
+export default function ToDo() {
+  const { filteredTasks, handleEdit, handleDelete } = useContext(TaskContext);
   const [isAscending, setIsAscending] = useState(null);
 
   let sortedData = filteredTasks.filter((item) => item.category === "todo");
@@ -65,12 +65,12 @@ export default function ToDo({ filteredTasks, onEdit, onDelete }) {
                   </h4>
 
                   <div className="flex gap-2">
-                    <button onClick={() => onDelete(item.id)}>
+                    <button onClick={() => handleDelete(item.id)}>
                       <DeleteSVG />
                     </button>
                     <button
                       onClick={() => {
-                        onEdit(item);
+                        handleEdit(item);
                       }}
                     >
                       <EditSVG />

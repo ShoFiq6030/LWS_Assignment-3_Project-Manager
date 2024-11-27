@@ -3,14 +3,19 @@
 import MassegeSVG from "./Svg/MassegeSVG";
 import MenuSVG from "./Svg/MenuSVG";
 import NotificationSVG from "./Svg/NotificationSVG";
+import CloseSvg from "./Svg/CloseSvg";
 
-export default function Header({ onSearch }) {
+export default function Header({ onSearch, setShowSidebar, showSidebar }) {
+  function handleSidebar() {
+    setShowSidebar((pre) => !pre);
+  }
   return (
     //  Top Bar
     <header className="flex items-center justify-between bg-gray-800 p-4 sticky top-0">
-      <button className="lg:hidden">
-        <MenuSVG />
+      <button className="lg:hidden" onClick={handleSidebar}>
+        {showSidebar && <MenuSVG />}
       </button>
+      <button className="lg:hidden" onClick={handleSidebar}>{showSidebar || <CloseSvg />}</button>
       <div className="mx-4 flex-1">
         <input
           onChange={(e) => onSearch(e)}

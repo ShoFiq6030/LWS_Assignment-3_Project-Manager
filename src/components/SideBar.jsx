@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import DashboardSVG from "./Svg/DashboardSVG";
 import ProjectsSVG from "./Svg/ProjectsSVG";
 import ContactSVG from "./Svg/ContactSVG";
@@ -7,16 +8,20 @@ import MessagesSVG from "./Svg/MessagesSVG";
 import SettingsSVG from "./Svg/SettingsSVG";
 import logo from "../assets/img/lws-logo-en.svg";
 
-export default function SideBar() {
+export default function SideBar({ showSidebar }) {
   return (
     // Sidebar
-    <aside className="hidden w-64 bg-gray-800 p-6 lg:block">
+    <aside
+      className={`${
+        showSidebar ? "hidden" : "block"
+      } lg:w-64 bg-gray-800 pt-6 lg:p-6 lg:block `}
+    >
       <div className="mb-8 flex items-center">
         <div className="flex items-center justify-center rounded-full text-xl font-bold">
           <img src={logo} className="mx-auto h-10 text-center" />
         </div>
       </div>
-      <button className="mb-8 w-full rounded-md bg-green-500 py-2 text-white">
+      <button className="mb-8 lg:w-full rounded-md bg-green-500 py-2 text-white">
         + New Project
       </button>
       <nav>

@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SortSVG from "./Svg/SortSVG";
 import SortDescending from "./Svg/SortDescending";
 import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
+import { TaskContext } from "../context/taskContext";
 
-export default function OnProgress({ filteredTasks, onDelete, onEdit }) {
+export default function OnProgress() {
+  const { filteredTasks, handleEdit, handleDelete } = useContext(TaskContext);
   const [isAscending, setIsAscending] = useState(null);
   // console.log(onProgressData);
   let onProgressData = filteredTasks.filter(
@@ -63,12 +65,12 @@ export default function OnProgress({ filteredTasks, onDelete, onEdit }) {
                   {item.taskName}
                 </h4>
                 <div className="flex gap-2">
-                  <button onClick={() => onDelete(item.id)}>
+                  <button onClick={() => handleDelete(item.id)}>
                     <DeleteSVG />
                   </button>
                   <button
                     onClick={() => {
-                      onEdit(item);
+                      handleEdit(item);
                     }}
                   >
                     <EditSVG />

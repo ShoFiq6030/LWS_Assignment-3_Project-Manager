@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Header from "./Header";
 import Project from "./Project";
@@ -6,8 +7,9 @@ import ToDoForm from "./ToDoForm";
 import { useReducer } from "react";
 import taskReducer from "../reducer/taskReducer";
 import { validateForm } from "../utils/utilityFunctions";
+import { TaskContext } from "../context/taskContext";
 
-export default function MainContent() {
+export default function MainContent({setShowSidebar,showSidebar}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState({});
   const [initialTasks, dispatch] = useReducer(taskReducer, initialData);
@@ -84,29 +86,38 @@ export default function MainContent() {
   }
 
   return (
-    <main className="flex-1 overflow-y-auto overflow-x-hidden">
-      {modalOpen && (
-        <ToDoForm
-          onCloseClick={handleModalCloseOpen}
-          inputData={inputData}
-          setInputData={setInputData}
-          onAddTask={handleAddorUpdate}
-          error={error}
-          setError={setError}
-          currentEdit={currentEdit}
-        />
-      )}
-      {!modalOpen && (
-        <>
-          <Header onSearch={handleSearchText} />
-          <Project
-            filteredTasks={filteredTasks}
-            onAddClick={handleModalCloseOpen}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
+    <TaskContext.Provider
+      value={{
+        filteredTasks,
+        handleModalCloseOpen,
+        handleAddorUpdate,
+        handleEdit,
+        handleDelete,
+      }}
+    >
+      <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        {modalOpen && (
+          <ToDoForm
+            onCloseClick={handleModalCloseOpen}
+            inputData={inputData}
+            setInputData={setInputData}
+            onAddTask={handleAddorUpdate}
+            error={error}
+            setError={setError}
+            currentEdit={currentEdit}
           />
-        </>
-      )}
-    </main>
+        )}
+        {!modalOpen && (
+          <>
+            <Header onSearch={handleSearchText} setShowSidebar={setShowSidebar} showSidebar={showSidebar}/>
+            <Project
+              onAddClick={handleModalCloseOpen}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          </>
+        )}
+      </main>
+    </TaskContext.Provider>
   );
 }

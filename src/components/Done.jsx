@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SortSVG from "./Svg/SortSVG";
 import SortDescending from "./Svg/SortDescending";
 import DeleteSVG from "./Svg/DeleteSVG";
 import EditSVG from "./Svg/EditSVG";
+import { TaskContext } from "../context/taskContext";
 
-/* eslint-disable react/prop-types */
-export default function Done({ filteredTasks, onDelete, onEdit }) {
+export default function Done() {
+  const { filteredTasks, handleEdit, handleDelete } = useContext(TaskContext);
   const [isAscending, setIsAscending] = useState(null);
 
   let doneData = filteredTasks.filter((item) => item.category === "done");
@@ -48,37 +49,35 @@ export default function Done({ filteredTasks, onDelete, onEdit }) {
             )}
           </button>
         </div>
-        {doneData.length===0 && "Task List is empty!" }
-         {doneData.map((item) => {
-              return (
-                <div key={item.id} className="mb-4 rounded-lg bg-gray-800 p-4">
-                  <div className="flex justify-between">
-                    <h4 className="mb-2 flex-1 font-semibold text-yellow-500">
-                      {item.taskName}
-                    </h4>
-                    <div className="flex gap-2">
-                      <button onClick={() => onDelete(item.id)}>
-                        <DeleteSVG />
-                      </button>
-                      <button
-                        onClick={() => {
-                          onEdit(item);
-                        }}
-                      >
-                        <EditSVG />
-                      </button>
-                    </div>
-                  </div>
-                  <p className="mb-2 text-sm text-zinc-200">
-                    {item.description}
-                  </p>
-
-                  <p className="mt-6 text-xs text-zinc-400">
-                    {formatDate(item.dueDate)}
-                  </p>
+        {doneData.length === 0 && "Task List is empty!"}
+        {doneData.map((item) => {
+          return (
+            <div key={item.id} className="mb-4 rounded-lg bg-gray-800 p-4">
+              <div className="flex justify-between">
+                <h4 className="mb-2 flex-1 font-semibold text-yellow-500">
+                  {item.taskName}
+                </h4>
+                <div className="flex gap-2">
+                  <button onClick={() => handleDelete(item.id)}>
+                    <DeleteSVG />
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleEdit(item);
+                    }}
+                  >
+                    <EditSVG />
+                  </button>
                 </div>
-              );
-            })}
+              </div>
+              <p className="mb-2 text-sm text-zinc-200">{item.description}</p>
+
+              <p className="mt-6 text-xs text-zinc-400">
+                {formatDate(item.dueDate)}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
